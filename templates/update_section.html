@@ -1,0 +1,78 @@
+{% extends "page_template.html" %}
+{% block title %}Section create{% endblock %}
+{% block head %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/section.js') }}"></script>
+{% endblock %}
+{% block mainContent %}
+
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/page/{{section.page_id}}">Page: {{section.page_id}}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">section: {{section_id}}</li>
+          </ol>
+        </nav>
+      </div>
+      <div class="col"></div>
+
+      <div class="col-6">
+        {% if section == None %}
+          {% with status="error", status_message="Section With Id " + section_id + " not found", is_visible=True %}
+            {% include "common/status_messages.html" %}
+          {% endwith %}
+        {% else %}
+        <form id="section_form" method="POST">
+          <input type="hidden" value="{{section.page_id}}" id="page_id">
+          <input type="hidden" value="{{section.id}}" id="section_id">
+          <div class="mb-3">
+            <h3 class="text-center mb-3">Update Section</h3>
+            <label for="exampleFormControlInput1" class="form-label">Section Name</label>
+            <input type="text" class="form-control" id="sectionname" placeholder="Type section name"
+              value="{{section.name}}"><span id="sname_feedback" class="text-danger"></span>
+          </div>
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Section Type</label>
+            <select class="form-select" aria-label="Default select example" id="section_type">
+              {% for section_type in section_types %}
+                {% if section.section_type.id == section_type.id %}
+                  <option value="{{section_type.id}}" selected='selected'>{{section_type.name}}</option>
+                {% else %}
+                  <option value="{{section_type.id}}">{{section_type.name}}</option>
+                {% endif %}
+              {% endfor %}
+            </select><span id="stype_feedback" class="text-danger"></span>
+          </div>
+          <div class="mb-3">
+            <div class="form-check">
+              {% if section.is_active == true %}
+                <input class="form-check-input" type="checkbox" value="true" id="activate" checked>
+              {% else %}
+                <input class="form-check-input" type="checkbox" value="true" id="activate">
+              {% endif %}
+              <label class="form-check-label" for="flexCheckDefault">
+                Activate
+              </label>
+            </div>
+          </div>
+
+          <div id="error_feedback" class="mb-3" class="text-danger"></div>
+          <button type="button" class="btn btn-primary" onclick="update_section()">Update</button>
+          <a href="/page/{{section.page_id}}"><button type="button" class="btn btn-light">Cancle</button></a>
+        </form>
+
+        {% with status="success" %}
+          {% include "common/status_messages.html" %}
+          <div id="return" class="d-none text-center">
+            <a href="/page/{{section.page_id}}"><button class="btn btn-primary">Return to page</button></a>
+          </div>
+        {% endwith %}
+      {% endif %}
+      </div>
+      <div class="col"></div>
+    </div>
+
+  {% endblock %}

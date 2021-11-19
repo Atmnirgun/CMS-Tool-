@@ -1,0 +1,26 @@
+{% if status == 'success' %}
+    <div class="alert alert-success d-flex align-items-center d-none" id="success_feedback" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="35" height="35" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+        <h5 id="success_msg" class="mt-2">
+            {{ status_message }}
+        </h5>
+    </div>
+{% endif %}
+
+{% if status == 'error' %}
+    <div class="alert alert-danger d-flex align-items-center {{'' if is_visible else 'd-none'}}" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="30" height="30" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+        <h6 class="mt-2">
+            {{ status_message }}
+        </h6>
+    </div> 
+{% endif %}
+
+{% if status == 'gen_error' %}
+    <div class="alert alert-danger d-flex align-items-center d-none" id="error_feedback" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="30" height="30" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+        <h6 id="error_msg" class="mt-2">
+            {{ status_message }}
+        </h6>
+    </div> 
+{% endif %}

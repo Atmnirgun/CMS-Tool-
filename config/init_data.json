@@ -1,0 +1,57 @@
+{
+    "SystemUsers": [
+        {
+            "id": 1,
+            "userName": "admin",
+            "password": "admin!890",
+            "firstName": "Admin",
+            "lastName": "User",
+            "emailId": "admin@budgettrolley.com",
+            "isActive": "True"
+        }
+    ],
+    "SectionTypes": [
+        {
+            "name": "Default Section",
+            "id": 1,
+            "description": "This is a default section type. If no specific section type used, then this would be used as a default section. Which can be rendered at anywhere on the page."
+        },
+        {
+            "name": "Header Section",
+            "id": 2,
+            "description": "This section will be rendered as a part of the header of the page."
+        },
+        {
+            "name": "Main Section",
+            "id": 3,
+            "description": "This section will be rendered as a part of main content of the page."
+        },
+        {
+            "name": "Footer Section",
+            "id": 4,
+            "description": "This section will be rendered as a part of the footer of the page."
+        }
+    ],
+    "ContentTypes": [
+        {
+            "name": "Rich Text Content",
+            "id": 1,
+            "description": "This content will return a plain text or a HTML formatted contents to render."
+        },
+        {
+            "name": "Hero banner",
+            "id": 2,
+            "description": "This content will return a URL of hero banner."
+        },
+        {
+            "name": "Hero banner carousel",
+            "id": 3,
+            "description": "This content will return a list of hero banner URLs as a comm separated string."
+        },
+        {
+            "name": "Product carousel",
+            "id": 4,
+            "description": "This content will return a list of product IDs as a comma separated string."
+        }
+    ]
+}

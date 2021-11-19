@@ -1,0 +1,127 @@
+{% extends "page_template.html" %}
+{% block title %}Home page{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/homepage.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='js/homepage.js') }}">
+{{ super() }}
+<style type="text/css">
+  .important {
+    color: #464c52;
+  }
+</style>
+{% endblock %}
+{% block mainContent %}
+<div class="container">
+  <div class="row">
+    <div class="col-4">
+      <main>
+        <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
+          <div class="d-flex flex-row gap-5">
+          <a href="/" class="text-decoration-none">
+            <span class="fs-4 mx-1">Pages</span>
+          </a>
+          <a href="/page">
+            <button class="btn btn-link mx-3">Add Page</button>
+          </a>
+          </div>
+          <hr>
+          <ul class="nav nav-pills flex-column mb-auto">
+            {% for pg in page_list %}
+            <li class="nav-item text-center">
+              {% if page != None and page.id == pg.id %}
+                <a href="/page/{{pg.id}}" class="nav-link active" aria-current="page">
+                  Page - {{pg.name}}
+                </a>
+              {% else %}
+                <a href="/page/{{pg.id}}" class="nav-link" aria-current="page">
+                  Page - {{pg.name}}
+                </a>
+              {% endif %}
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </main>
+    </div>
+    <div class="col-8">
+      {% if page == None %}
+        <div class="alert alert-primary d-flex align-items-center" role="alert">
+          <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+          <div>
+            Please select a page from left hand side.
+          </div>
+        </div>
+      {% else %}
+        <div class="container mt-4 mb-4 text-center">
+          <h5>Page Details - {{page.name}}</h5>
+        </div>
+
+        <div class="container justify-content-start mb-3">
+          <div class="row">
+            <div class="d-flex col-md-12 text-right gap-2">
+              <h5 style="text-align:left">Page Actions</h5>
+              <a href="/page/edit/{{page.id}}"><button type="button" class="btn btn-link pt-0">Edit</button></a>
+              <!--<button type="button" class="btn btn-outline-primary btn-sm">Deactivate</button>-->
+              <a href="/page/delete/{{page.id}}"><button type="button" class="btn btn-link pt-0">Remove</button></a>
+              <a href="/section?pageId={{page.id}}"><button type="button" class="btn btn-link pt-0">Add section</button></a>
+            </div>
+          </div>
+        </div>
+        <hr/>
+        {% if page.sections != None and (page.sections|length) > 0 %}
+          {% for section in page.sections %}
+            <div class="container">
+              <div class="row">
+                <div class="d-flex col-md-12 text-right gap-2 mt-3">
+                  <h5 style="text-align:left">Section:</h5>{{section.name}}
+                  <a href="/section/edit/{{section.id}}"><button type="button" class="btn btn-link pt-0">Edit</button></a>
+                  <!--<button type="button" class="btn btn-outline-primary btn-sm">Deactivate</button>-->
+                  <a href="/section/delete/{{section.id}}?pageId={{page.id}}"><button type="button" class="btn btn-link pt-0">Remove</button></a>
+                  <a href="/content?sectionId={{section.id}}&pageId={{page.id}}"><button type="button" class="btn btn-link pt-0">Add Content</button></a>
+                </div>
+              </div>
+              <div class="row">
+                {% if section.contents != None and (section.contents|length) > 0 %}
+                  <table class="table table-bordered">
+                    <div class="text-center mt-2">
+                      <h5>Contents</h5>
+                    </div>  
+                    <thead class="text-center">
+                      <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for content in section.contents %}
+                        <tr class="text-center">
+                          <th scope="row">{{content.id}}</th>
+                          <td>{{content.name}}</td>
+                          <td>{{content.content_type.name}} </td>
+                          <td>{{content.is_active}}</td>
+                          <td>
+                            <a href="/content/{{content.id}}?sectionId={{section.id}}&pageId={{page.id}}"><button class="btn btn-link">Edit</button></a>
+                          </td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                {% else %}  
+                  <h5 class="fw-lighter text-center">No contents found.</h5>
+                {% endif %}
+              </div>
+            </div>
+            <hr/>
+          {% endfor %} 
+        {% else %}   
+        <h5 class="fw-lighter text-center">No Sections found.</h5> 
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+

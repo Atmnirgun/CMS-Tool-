@@ -1,0 +1,77 @@
+{% extends "page_template.html" %}
+{% block title %}Content create{% endblock %}
+{% block head %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/content.js') }}"></script>
+{% endblock %}
+{% block mainContent %}
+<div>
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href="/page/{{page_id}}">Page:{{page_id}}</a></li>
+    <li class="breadcrumb-item"><a href="/section/{{section_id}}">Section: {{section_id}}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Content</li>
+  </ol>
+</nav>
+</div>
+<div class="container">
+  {% if  error != None %}
+    {% with status="error", status_message=error, is_visible = True %}
+      {% include "common/status_messages.html" %}
+    {% endwith %}
+  {% else %}
+  <div class="row justify-content-md-center">
+    <div class="col"></div>
+
+    <div class="col-6">
+      <form id="content_form" method="POST">
+        <div class="mb-3">
+          <h3 class="text-center mb-3">Create New Content</h3>
+          <input id="sectionId" name="sectionID" type="hidden" value={{section_id}} />
+          <label for="exampleFormControlInput1" class="form-label">Content Name</label>
+          <input type="text" class="form-control" id="contentname" placeholder="Type content name"><span id="cname_feedback" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Content Type</label>
+          <select class="form-select" aria-label="Default select example" id="content_type" onchange="handleContentTypeChange()">
+            <option selected value="-1">Select Content Type</option>
+            {% for content_type in content_types %}
+              <option value="{{content_type.id}}" >{{content_type.name}}</option>
+            {% endfor %}
+          </select><span id="ctype_feedback" class="text-danger"></span>
+        </div>
+        
+        <div class="mb-3">
+          <label for="exampleFormControlInput1" class="form-label">Contents</label>
+          <input type="text" class="form-control" placeholder="" id="contents"></input>
+          {% include "common/richtext_editor.html" %}
+          <span id="content_feedback" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="true" id="activate">
+            <label class="form-check-label" for="flexCheckDefault">
+              Activate
+            </label>
+          </div>
+        </div>
+        
+        <div id="error_feedback" class="mb-3" class="text-danger"></div>
+        <button type="button" class="btn btn-primary" onclick="create_content()">Create</button>
+        <button value="Reset" type="reset" class="btn btn-light" onclick="resetdata()">Reset</button>
+      </form>
+      
+      {% with status="success" %}
+        {% include "common/status_messages.html" %}
+        <div id="return" class="d-none text-center">
+          <a href="/section/{{section_id}}"><button class="btn btn-primary">Return to section</button></a>
+        </div>
+      {% endwith %}
+    </div>
+    <div class="col"></div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

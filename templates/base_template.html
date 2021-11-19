@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+  <head>
+    {% block head %}
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-5.1.1/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+    <script src="{{ url_for('static', filename='bootstrap-5.1.1/js/bootstrap.bundle.min.js') }}"></script>
+    
+    <title>{% block title %}{% endblock %} - QuickEx</title>
+    {% endblock %}
+  </head>
+  <body class="text-center">
+    
+
+    <div class="container" id="content">
+        {% block mainContent %}{% endblock %}
+    </div>
+        
+  </body>
+</html>

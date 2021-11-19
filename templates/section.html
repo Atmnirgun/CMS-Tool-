@@ -1,0 +1,127 @@
+{% extends "page_template.html" %}
+{% block title %}Content create{% endblock %}
+{% block head %}
+  {{ super() }}
+  <script src="{{ url_for('static', filename='js/section.js') }}"></script>
+{% endblock %}
+{% block mainContent %}
+<div>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item"><a href="/page/{{section.page_id}}">Page: {{section.page_id if section != None else page_id}}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Section{{': ' + (section_id|string) if section_id != None else ''}}</li>
+    </ol>
+  </nav>
+</div>
+<div class="container">
+  {% if error != None %}
+    {% with status="error", status_message = error , is_visible = True %}
+      {% include "common/status_messages.html" %}
+    {% endwith %}
+  {% else %}
+    {% if section == None %}
+      <div class="row justify-content-md-center">
+        <div class="col"></div>
+
+        <div class="col-6">
+          <form id="section_form" method="POST">
+            <input type="hidden" value="{{page_id}}" id="page_id">
+            <div class="mb-3">
+              <h3 class="text-center mb-3">Create New Section</h3>
+              <label for="exampleFormControlInput1" class="form-label">Section Name</label>
+              <input type="text" class="form-control" id="sectionname" placeholder="Type section name"><span
+                id="sname_feedback" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+              <label for="exampleFormControlInput1" class="form-label">Section Type</label>
+              <select class="form-select" aria-label="Default select example" id="section_type">
+                <option selected value="-1">Select Section Type</option>
+                {% for section_type in section_types %}
+                  <option value="{{section_type.id}}">{{section_type.name}}</option>
+                {% endfor %}
+              </select><span id="stype_feedback" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="true" id="activate">
+                <label class="form-check-label" for="flexCheckDefault">
+                  Activate
+                </label>
+              </div>
+            </div>
+
+            <div id="error_feedback" class="mb-3" class="text-danger"></div>
+            <button type="button" class="btn btn-primary" onclick="create_section()">Create</button>
+            <button value="Reset" type="reset" class="btn btn-light" onclick="resetdata()">Reset</button>
+          </form>
+
+          {% with status="success" %}
+            {% include "common/status_messages.html" %}
+          {% endwith %}
+        </div>
+        <div class="col"></div>
+      </div>
+      {% endif %}
+      <div class="container {{'' if section != None else 'd-none'}}" id="sec">
+        <div class="text-center mb-3">
+          <h5>Section View</h5>
+        </div>
+        {% if section != None %}
+          <div class="mb-4">
+            <b>Section Name :</b>&nbsp<span id="sec_name">{{section.name}}</span><br>
+            <b>Section Type : </b><span id="sec_type">{{section.section_type.name}}</span><br>
+            <b>Is Active :</b> <span id="is_active">{{section.is_active}}</span>
+          </div>
+        {% else %}
+          <div class="mb-4">
+            <b>Section Name :</b>&nbsp<span id="sec_name"></span><br>
+            <b>Section Type : </b><span id="sec_type"></span><br>
+            <b>Is Active :</b> <span id="is_active"></span>
+          </div>
+        {% endif %}
+
+        <div class="text-center mb-3">
+          <h5>Contents</h5>
+        </div>
+        <div class="float-end mb-3">
+          {% if section != None %}
+            <a href="/content?sectionId={{section.id}}&pageId={{section.page_id}}" id="btn-add-content"><button class="btn btn-success">Add
+              Content</button></a>
+          {% else %}
+            <a href="#" id="btn-add-content"><button class="btn btn-success">Add Content</button></a>
+          {% endif %}
+
+        </div>
+        <div>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">id</th>
+                <th scope="col">Content Name</th>
+                <th scope="col">Content Type</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if contents != None %}
+                {% for content in contents %}
+                  <tr>
+                    <th scope="row">{{content.id}}</th>
+                    <td>{{content.name}}</td>
+                    <td>{{content.content_type.name}}</td>
+                    <td>{{content.is_active}}</td>
+                    <td><a href="/content/{{content.id}}?sectionId={{section.id}}" class="btn btn-link mx-2" role="button">Edit</a>
+                      <a class="btn btn-link" role="button" href="/content/delete/{{content.id}}?sectionId={{section.id}}&pageId={{section.page_id}}">Remove</a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              {% endif %}
+
+            </tbody>
+          </table>
+        </div>
+      {% endif %}
+    </div>
+  {% endblock %}

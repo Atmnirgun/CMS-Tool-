@@ -1,0 +1,39 @@
+{% extends "base_template.html" %}
+{% block title %}User login{% endblock %}
+{% block head %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/authentication.js') }}"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/signin.css') }}">
+{% endblock %}
+
+{% block mainContent %}
+<main class="form-signin">
+  <form id="login_form" method="POST">
+    <img class="mb-4" src="{{ url_for('static', filename='images/logos/quickex/QuickEx.png') }}" alt="" width="150"
+      height="100">
+    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+    <div class="mb-3">
+      <div class="form-floating">
+        <input type="text" name="username" id="username" class="form-control" placeholder="user name" required autofocus>
+        <label for="floatingInput">User Name</label>
+        <div id="user_feedback" class="invalid-feedback">
+        </div>
+      </div>
+      
+      <div class="form-floating">
+        <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+        <label for="floatingPassword">Password</label>
+        <div id="password_feedback" class="invalid-feedback">
+        </div>
+      </div>
+
+      <div id="feedback" class="text-danger">
+      </div>
+    </div>
+    
+    <button class="w-100 btn btn-lg btn-primary btn-block" type="button" id="signin_button" onclick="signin()">Sign
+      in</button>
+    <p class="mt-5 mb-3 text-muted">&copy; 2021-2022</p>
+  </form>
+</main>
+{% endblock %}

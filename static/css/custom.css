@@ -1,0 +1,13 @@
+.logo-img {
+    height: 50px;
+    width: 135px;
+}
+
+body > #standalone-container {
+    margin: 50px auto;
+    max-width: 100%;
+}
+
+#editor-container {
+    height: 350px;
+}

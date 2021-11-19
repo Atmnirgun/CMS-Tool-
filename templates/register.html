@@ -1,0 +1,59 @@
+{% extends "page_template.html" %}
+{% block title %}Register page{% endblock %}
+{% block head %}
+{{ super() }}
+<style type="text/css">
+    .important {
+        color: #336699;
+    }
+</style>
+<script src="{{ url_for('static', filename='js/register.js') }}"></script>
+{% endblock %}
+{% block mainContent %}
+<div class="row">
+    <div class="col"></div>
+    <div class="col-6">
+        <form id="registration_form" method="POST">
+            <div class="mb-3 text-center">
+                <h3>Please Register</h3>
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label">User Name</label>
+                <input type="text" class="form-control" id="username" placeholder="Enter username"><span id="uname_feedback" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label">First Name</label>
+                <input type="text" class="form-control" id="firstname"
+                    placeholder="Enter first name"><span id="fname_feedback" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label">Last Name</label>
+                <input type="text" class="form-control" id="lastname" aria-describedby="emailHelp"
+                    placeholder="Enter last name"><span id="lname_feedback" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
+                    placeholder="Enter email"><span id="email_feedback" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Password"><span id="password_feedback" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check mb-3">
+                <label class="form-check-label">Active</label>
+                <input type="checkbox" class="form-check-input" id="active" value="True">
+            </div>
+            <div id="error_feedback" class="mb-3" class="text-danger"></div>
+            <button type="button" class="btn btn-primary mb-3" onclick="create_user()">Register</button>
+            <button value="Reset" type="reset" class="btn btn-light mb-3" onclick="resetdata()">Reset</button>
+        </form>
+        {% with status="success" %}
+            {% include "common/status_messages.html" %}
+        {% endwith %}
+    </div>
+    <div class="col"></div>
+</div>
+
+
+{% endblock %}

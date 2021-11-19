@@ -1,0 +1,30 @@
+{% extends 'page_template.html' %}
+{% block title %}Delete page{% endblock %}
+{% block head %}
+  {{ super() }}
+  <script src="{{ url_for('static', filename='js/page.js') }}"></script>
+{% endblock %}
+{% block mainContent %}
+<div>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Page: {{id}}</li>
+    </ol>
+  </nav>
+  </div>
+  <div class="container text-center my-4" id="delete_div">
+      Are you sure to want to delete page with id <span id="id">{{id}}</span><br>
+      <button class="btn btn-danger mx-1 my-3" onclick="delete_page()">Confirm</button><a href="/page/{{id}}"><button id="cancle_button" class="btn btn-success">Cancle</button></a>
+  </div>
+  {% with status="success" %}
+    {% include "common/status_messages.html" %}
+    <div id="return" class="d-none text-center">
+        <a href="/" id="home_return"><button class="btn btn-primary">Return to Home</button></a>
+    </div>
+  {% endwith %}
+  {% with status="gen_error" %}
+      {% include "common/status_messages.html" %}
+  {% endwith %}
+  
+{% endblock %}

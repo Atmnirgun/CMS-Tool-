@@ -1,0 +1,32 @@
+{% extends 'page_template.html' %}
+{% block title %}Delete Content{% endblock %}
+{% block head %}
+  {{ super() }}
+  <script src="{{ url_for('static', filename='js/content.js') }}"></script>
+{% endblock %}
+{% block mainContent %}
+<div>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item"><a href="/page/{{page_id}}">Page:{{page_id}}</a></li>
+      <li class="breadcrumb-item"><a href="/section/{{section_id}}">Section: {{section_id}}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Content</li>
+    </ol>
+  </nav>
+  </div>
+  <div class="container text-center my-4" id="delete_div">
+      Are you sure to want to delete content with id <span id="id">{{id}}</span><br>
+      <button class="btn btn-danger mx-1 my-3" onclick="delete_content()">Confirm</button><a href="/section/{{section_id}}"><button id="cancle_button" class="btn btn-success">Cancle</button></a>
+  </div>
+  {% with status="success" %}
+    {% include "common/status_messages.html" %}
+    <div id="return" class="d-none text-center">
+        <a href="/section/{{section_id}}" id="sec_return"><button class="btn btn-primary">Return to section</button></a>
+    </div>
+  {% endwith %}
+  {% with status="gen_error" %}
+      {% include "common/status_messages.html" %}
+  {% endwith %}
+  
+{% endblock %}
